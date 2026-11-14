@@ -1,10 +1,15 @@
 import { statuses, statusStyles } from "../../../../data/data";
 
-const UserActions = ({ application }) => {
+const UserActions = ({
+  application,
+  applicationStatus,
+  setApplicationStatus,
+}) => {
   return (
     <>
       <select
-        defaultValue={application.status}
+        value={applicationStatus}
+        onChange={(e) => setApplicationStatus(e.target.value)}
         className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 outline-none ${statusStyles[application.status]}`}
       >
         {statuses.slice(1).map((s) => (

@@ -1,10 +1,8 @@
-import { applications } from "../../../data/data";
 import ApplicationCard from "./application-card/ApplicationCard";
-
-const ApplicationList = () => {
+const ApplicationList = ({ filteredApplications }) => {
   return (
     <ul className="space-y-3">
-      {applications.map((a) => (
+      {filteredApplications.map((a) => (
         <ApplicationCard key={a.id} application={a} />
       ))}
     </ul>

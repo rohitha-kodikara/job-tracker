@@ -64,7 +64,7 @@ export const interviews = [
 ];
 
 export const statuses = ["All", "Applied", "Interviewing", "Offer", "Rejected"];
-export const workTypes = ["Remote", "Hybrid", "Onsite"];
+export const workTypes = ["Remote", "Hybrid", "Onsite", "All Work Types"];
 export const interviewTypes = ["Phone", "Technical", "HR", "Final"];
 
 export const statusStyles = {

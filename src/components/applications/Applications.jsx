@@ -1,9 +1,43 @@
 import ApplicationForm from "./ApplicationForm";
-import { applications, statuses, statusStyles } from "../../data/data";
 import SearchAndFilters from "./search-and-filters/SearchAndFilters";
 import ApplicationList from "./application-cards/ApplicationList";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { applications } from "../../data/data";
 
-const Applications = ({ showForm }) => {
+const Applications = () => {
+  const [displayAppForm, setDisplayAppForm] = useState(true);
+
+  const [searchParam, setSearchParam] = useSearchParams("");
+
+  const searchQuery = searchParam.get("app-search") || "";
+  const workType = searchParam.get("work-type") || "All Work Types";
+  const status = searchParam.get("status") || "All";
+
+  function updateSearchParams(key, value) {
+    const newSearchParams = new URLSearchParams(searchParam);
+    if (value == "" || value == null) {
+      newSearchParams.delete(key);
+    } else {
+      newSearchParams.set(key, value);
+    }
+    setSearchParam(newSearchParams);
+  }
+
+  const filterApplications = applications.filter((application) => {
+    const companyMatch = application.company
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const workTypeMatch =
+      application.workType.toLowerCase() === workType.toLowerCase() ||
+      workType === "All Work Types";
+    const statusMatch =
+      application.status.toLowerCase() === status.toLowerCase() ||
+      status === "All";
+
+    return companyMatch && workTypeMatch && statusMatch;
+  });
+
   return (
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -13,19 +47,26 @@ const Applications = ({ showForm }) => {
             Track every job you apply for
           </p>
         </div>
-        <button className="cursor-pointer rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-sky-700">
-          {showForm ? "Close form" : "+ Add Application"}
+        <button
+          className="cursor-pointer rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-sky-700"
+          onClick={() => setDisplayAppForm((open) => !open)}
+        >
+          {displayAppForm ? "Close form" : "+ Add Application"}
         </button>
       </div>
 
       {/* Add application form */}
-      {showForm && <ApplicationForm />}
+      {displayAppForm && <ApplicationForm />}
 
       {/* Search + filters */}
-      <SearchAndFilters />
+      <SearchAndFilters
+        updateSearchParams={updateSearchParams}
+        searchQuery={searchQuery}
+        workType={workType}
+      />
 
       {/* Application cards */}
-      <ApplicationList />
+      <ApplicationList filteredApplications={filterApplications} />
 
       {/* Empty state (search / filter walin kisima application ekak nathnam) */}
       {/* <p className="py-10 text-center text-sm text-slate-400">No applications found</p> */}

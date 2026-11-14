@@ -1,6 +1,8 @@
+import { useState } from "react";
 import UserActions from "./UserActions";
 
 const ApplicationCard = ({ application }) => {
+  const [applicationStatus, setApplicationStatus] = useState("applied");
   return (
     <li
       key={application.id}
@@ -20,7 +22,11 @@ const ApplicationCard = ({ application }) => {
         </span>
       </div>
 
-      <UserActions application={application} />
+      <UserActions
+        application={application}
+        applicationStatus={applicationStatus}
+        setApplicationStatus={setApplicationStatus}
+      />
     </li>
   );
 };
