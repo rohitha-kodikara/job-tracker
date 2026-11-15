@@ -15,15 +15,6 @@ const Applications = () => {
     (state) => state.applications.applications,
   );
 
-  // function handleApplicationStatus(applicationId, newStatus) {
-  //   const updatedApplications = reduxApplicationData.map((application) => {
-  //     if (application.id === applicationId) {
-  //       return { ...application, status: newStatus };
-  //     }
-  //     return updatedApplications;
-  //   });
-  // }
-
   const searchQuery = searchParam.get("app-search") || "";
   const workType = searchParam.get("work-type") || "All Work Types";
   const applicationStatus = searchParam.get("status") || "All";

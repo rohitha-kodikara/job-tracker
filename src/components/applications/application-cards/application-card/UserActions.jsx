@@ -1,6 +1,10 @@
 import { useDispatch } from "react-redux";
 import { statuses, statusStyles } from "../../../../data/data";
-import { updateApplicationStatus } from "../../../../features/application/applicationSlice";
+import {
+  deleteApplication,
+  updateApplicationStatus,
+} from "../../../../features/application/applicationSlice";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 const UserActions = ({ application }) => {
   const dispatch = useDispatch();
@@ -8,6 +12,10 @@ const UserActions = ({ application }) => {
   const handleApplicationStatus = (applicationId, newStatus) => {
     dispatch(updateApplicationStatus(applicationId, newStatus));
   };
+
+  function handleDeleteApplication(applicationId) {
+    dispatch(deleteApplication(applicationId));
+  }
 
   return (
     <>
@@ -25,9 +33,12 @@ const UserActions = ({ application }) => {
         ))}
       </select>
 
-      <button className="cursor-pointer rounded-lg px-2 py-1 text-xs font-medium text-red-500 transition hover:bg-red-50">
-        Delete
-      </button>
+      {/*----------Delete Dialog box-------------*/}
+      <DeleteConfirmation
+        application={application}
+        handleDeleteApplication={handleDeleteApplication}
+      />
+      {/*----------Delete Dialog box-------------*/}
     </>
   );
 };
