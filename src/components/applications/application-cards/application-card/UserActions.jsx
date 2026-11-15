@@ -1,6 +1,14 @@
+import { useDispatch } from "react-redux";
 import { statuses, statusStyles } from "../../../../data/data";
+import { updateApplicationStatus } from "../../../../features/application/applicationSlice";
 
-const UserActions = ({ application, handleApplicationStatus }) => {
+const UserActions = ({ application }) => {
+  const dispatch = useDispatch();
+
+  const handleApplicationStatus = (applicationId, newStatus) => {
+    dispatch(updateApplicationStatus(applicationId, newStatus));
+  };
+
   return (
     <>
       <select

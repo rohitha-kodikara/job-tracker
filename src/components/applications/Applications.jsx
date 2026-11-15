@@ -3,23 +3,26 @@ import SearchAndFilters from "./search-and-filters/SearchAndFilters";
 import ApplicationList from "./application-cards/ApplicationList";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { applications } from "../../data/data";
+// import { applications } from "../../data/data";
+import { useSelector } from "react-redux";
 
 const Applications = () => {
   const [displayAppForm, setDisplayAppForm] = useState(true);
 
   const [searchParam, setSearchParam] = useSearchParams("");
 
-  const [applicationList, setApplicationList] = useState(applications);
-  function handleApplicationStatus(applicationId, newStatus) {
-    setApplicationList((prevApplications) =>
-      prevApplications.map((application) =>
-        application.id === applicationId
-          ? { ...application, status: newStatus }
-          : application,
-      ),
-    );
-  }
+  const reduxApplicationData = useSelector(
+    (state) => state.applications.applications,
+  );
+
+  // function handleApplicationStatus(applicationId, newStatus) {
+  //   const updatedApplications = reduxApplicationData.map((application) => {
+  //     if (application.id === applicationId) {
+  //       return { ...application, status: newStatus };
+  //     }
+  //     return updatedApplications;
+  //   });
+  // }
 
   const searchQuery = searchParam.get("app-search") || "";
   const workType = searchParam.get("work-type") || "All Work Types";
@@ -35,7 +38,7 @@ const Applications = () => {
     setSearchParam(newSearchParams);
   }
 
-  const filterApplications = applicationList.filter((application) => {
+  const filterApplications = reduxApplicationData.filter((application) => {
     const matchSearch =
       application.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
       application.role.toLowerCase().includes(searchQuery.toLowerCase());
@@ -49,7 +52,7 @@ const Applications = () => {
 
     return matchSearch && workTypeMatch && statusMatch;
   });
-  console.log(filterApplications);
+
   return (
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -77,10 +80,7 @@ const Applications = () => {
         workType={workType}
         applicationStatus={applicationStatus}
       />
-      <ApplicationList
-        filteredApplications={filterApplications}
-        handleApplicationStatus={handleApplicationStatus}
-      />
+      <ApplicationList filteredApplications={filterApplications} />
 
       {/* Empty state (search / filter walin kisima application ekak nathnam) */}
       {/* <p className="py-10 text-center text-sm text-slate-400">No applications found</p> */}

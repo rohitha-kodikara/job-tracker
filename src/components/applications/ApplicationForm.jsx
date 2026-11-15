@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { workTypes, statuses } from "../../data/data";
+import { useDispatch, useSelector } from "react-redux";
+import { addApplication } from "../../features/application/applicationSlice";
 
 const ApplicationForm = () => {
   const [companyName, setCompanyName] = useState("");
@@ -7,14 +9,49 @@ const ApplicationForm = () => {
   const [workType, setWorkType] = useState("");
   const [status, setStatus] = useState("applied");
 
+  const dispatch = useDispatch();
+  const applications = useSelector((state) => state.applications.applications);
+
+  function validateForm() {
+    if (!companyName || !role || !workType || !status) {
+      alert("Please fill in all fields before submitting the form.");
+      return false;
+    }
+    return true;
+  }
+
   function handleApplicationSubmit(e) {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+    //check for duplicate company and role combination
+    const isDuplicate = applications.some(
+      (application) =>
+        application.company.trim().toLowerCase() ===
+          companyName.trim().toLowerCase() &&
+        application.role.trim().toLowerCase() === role.trim().toLowerCase(),
+    );
+
+    if (isDuplicate) {
+      alert("This company and role already exist.");
+      return;
+    }
+
+    //create a new application object and dispatch the addApplication action
     const newApplication = {
       company: companyName,
       role: role,
       workType: workType,
       status: status,
     };
+
+    dispatch(addApplication(newApplication));
+    setCompanyName("");
+    setRole("");
+    setWorkType("");
+    setStatus("applied");
   }
 
   return (
