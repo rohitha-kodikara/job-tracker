@@ -16,7 +16,7 @@ const Applications = () => {
   );
 
   const searchQuery = searchParam.get("app-search") || "";
-  const workType = searchParam.get("work-type") || "All Work Types";
+  const workType = searchParam.get("work-type") || "";
   const applicationStatus = searchParam.get("status") || "All";
 
   function updateSearchParams(key, value) {
@@ -35,8 +35,8 @@ const Applications = () => {
       application.role.toLowerCase().includes(searchQuery.toLowerCase());
 
     const workTypeMatch =
-      application.workType.toLowerCase() === workType.toLowerCase() ||
-      workType === "All Work Types";
+      workType === "" ||
+      application.workType.toLowerCase() === workType.toLowerCase();
     const statusMatch =
       application.status.toLowerCase() === applicationStatus.toLowerCase() ||
       applicationStatus === "All";

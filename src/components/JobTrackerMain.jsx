@@ -5,7 +5,7 @@ import Interviews from "./interviews/Interviews";
 
 const JobTrackerMain = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-sky-50 to-slate-100">
+    <div className="min-h-screen bg-slate-200">
       {/* Header */}
       <Header />
 

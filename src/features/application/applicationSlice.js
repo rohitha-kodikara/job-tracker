@@ -2,9 +2,6 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
   applications: [],
-  searchQuery: "",
-  workType: "All Work Types",
-  status: "All",
 };
 
 const applicationSlice = createSlice({
