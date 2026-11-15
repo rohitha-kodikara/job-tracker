@@ -1,4 +1,29 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  removeInterview,
+  updateInterviewStatus,
+} from "@/features/interviews/interviewSlice";
+import { useSelector } from "react-redux";
+import DeleteConfirmation from "@/components/applications/application-cards/application-card/DeleteConfirmation";
+
 const ListItem = ({ item }) => {
+  const dispatch = useDispatch();
+  const interviewStatus = useSelector(
+    (state) =>
+      state.interviews.interviews.find((interview) => interview.id === item.id)
+        ?.done,
+  );
+  console.log(interviewStatus);
+
+  function handleUpdateInterviewStatus(itemId, newStatus) {
+    dispatch(updateInterviewStatus(itemId, newStatus));
+  }
+
+  function handleDeleteInterview(itemId) {
+    dispatch(removeInterview(itemId));
+  }
+
   return (
     <li
       key={item.id}
@@ -8,13 +33,18 @@ const ListItem = ({ item }) => {
         <label className="flex items-start gap-3">
           <input
             type="checkbox"
-            defaultChecked={item.done}
+            checked={interviewStatus || false}
+            onChange={(e) =>
+              handleUpdateInterviewStatus(item.id, e.target.checked)
+            }
             className="mt-1 h-4 w-4 accent-sky-600"
           />
           <div>
             <p
               className={`text-sm font-semibold ${
-                item.done ? "text-slate-400 line-through" : "text-slate-800"
+                interviewStatus
+                  ? "text-slate-400 line-through"
+                  : "text-slate-800"
               }`}
             >
               {item.company}
@@ -22,9 +52,7 @@ const ListItem = ({ item }) => {
             <p className="text-xs text-slate-500">{item.role}</p>
           </div>
         </label>
-        <button className="cursor-pointer text-xs font-medium text-red-500 hover:underline">
-          Remove
-        </button>
+        <DeleteConfirmation item={item} onDelete={handleDeleteInterview} />
       </div>
 
       <div className="mt-2 flex items-center justify-between pl-7 text-xs">

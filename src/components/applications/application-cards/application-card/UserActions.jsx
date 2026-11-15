@@ -35,8 +35,8 @@ const UserActions = ({ application }) => {
 
       {/*----------Delete Dialog box-------------*/}
       <DeleteConfirmation
-        application={application}
-        handleDeleteApplication={handleDeleteApplication}
+        item={application}
+        onDelete={handleDeleteApplication}
       />
       {/*----------Delete Dialog box-------------*/}
     </>

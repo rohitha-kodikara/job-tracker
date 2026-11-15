@@ -1,4 +1,3 @@
-import { applications, interviewTypes, interviews } from "../../data/data";
 import InterviewList from "./interview-list/InterviewList";
 import ScheduleForm from "./ScheduleForm";
 

@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 
-const DeleteConfirmation = ({ application, handleDeleteApplication }) => {
+const DeleteConfirmation = ({ item, onDelete }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
@@ -37,7 +37,7 @@ const DeleteConfirmation = ({ application, handleDeleteApplication }) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="bg-red-500 text-white hover:bg-red-600 focus:ring-red-500"
-            onClick={() => handleDeleteApplication(application.id)}
+            onClick={() => onDelete(item.id)}
           >
             {" "}
             Yes Delete
