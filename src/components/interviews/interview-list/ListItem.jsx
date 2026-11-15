@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   removeInterview,
@@ -14,7 +13,6 @@ const ListItem = ({ item }) => {
       state.interviews.interviews.find((interview) => interview.id === item.id)
         ?.done,
   );
-  console.log(interviewStatus);
 
   function handleUpdateInterviewStatus(itemId, newStatus) {
     dispatch(updateInterviewStatus(itemId, newStatus));
