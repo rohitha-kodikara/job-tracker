@@ -1,15 +1,13 @@
 import { statuses, statusStyles } from "../../../../data/data";
 
-const UserActions = ({
-  application,
-  applicationStatus,
-  setApplicationStatus,
-}) => {
+const UserActions = ({ application, handleApplicationStatus }) => {
   return (
     <>
       <select
-        value={applicationStatus}
-        onChange={(e) => setApplicationStatus(e.target.value)}
+        value={application.status}
+        onChange={(e) =>
+          handleApplicationStatus(application.id, e.target.value)
+        }
         className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 outline-none ${statusStyles[application.status]}`}
       >
         {statuses.slice(1).map((s) => (

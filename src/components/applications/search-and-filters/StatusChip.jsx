@@ -1,6 +1,7 @@
-const StatusChip = ({ status, i, updateSearchParams }) => {
+const StatusChip = ({ status, i, applicationStatus, updateSearchParams }) => {
   return (
     <button
+      value={applicationStatus}
       onClick={() => updateSearchParams("status", status)}
       key={status}
       className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition ${

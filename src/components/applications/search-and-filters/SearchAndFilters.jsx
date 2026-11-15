@@ -2,7 +2,12 @@ import FilterByWorkType from "./FilterByWorkType";
 import SearchBox from "./SearchBox";
 import StatusChipList from "./StatusChipList";
 
-const SearchAndFilters = ({ updateSearchParams, searchQuery, workType }) => {
+const SearchAndFilters = ({
+  updateSearchParams,
+  searchQuery,
+  workType,
+  applicationStatus,
+}) => {
   return (
     <>
       <div className="mb-3 flex flex-wrap gap-3">
@@ -16,7 +21,10 @@ const SearchAndFilters = ({ updateSearchParams, searchQuery, workType }) => {
         />
       </div>
 
-      <StatusChipList updateSearchParams={updateSearchParams} />
+      <StatusChipList
+        updateSearchParams={updateSearchParams}
+        applicationStatus={applicationStatus}
+      />
     </>
   );
 };

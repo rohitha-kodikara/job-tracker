@@ -10,9 +10,20 @@ const Applications = () => {
 
   const [searchParam, setSearchParam] = useSearchParams("");
 
+  const [applicationList, setApplicationList] = useState(applications);
+  function handleApplicationStatus(applicationId, newStatus) {
+    setApplicationList((prevApplications) =>
+      prevApplications.map((application) =>
+        application.id === applicationId
+          ? { ...application, status: newStatus }
+          : application,
+      ),
+    );
+  }
+
   const searchQuery = searchParam.get("app-search") || "";
   const workType = searchParam.get("work-type") || "All Work Types";
-  const status = searchParam.get("status") || "All";
+  const applicationStatus = searchParam.get("status") || "All";
 
   function updateSearchParams(key, value) {
     const newSearchParams = new URLSearchParams(searchParam);
@@ -24,20 +35,21 @@ const Applications = () => {
     setSearchParam(newSearchParams);
   }
 
-  const filterApplications = applications.filter((application) => {
-    const companyMatch = application.company
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+  const filterApplications = applicationList.filter((application) => {
+    const matchSearch =
+      application.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      application.role.toLowerCase().includes(searchQuery.toLowerCase());
+
     const workTypeMatch =
       application.workType.toLowerCase() === workType.toLowerCase() ||
       workType === "All Work Types";
     const statusMatch =
-      application.status.toLowerCase() === status.toLowerCase() ||
-      status === "All";
+      application.status.toLowerCase() === applicationStatus.toLowerCase() ||
+      applicationStatus === "All";
 
-    return companyMatch && workTypeMatch && statusMatch;
+    return matchSearch && workTypeMatch && statusMatch;
   });
-
+  console.log(filterApplications);
   return (
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -63,10 +75,12 @@ const Applications = () => {
         updateSearchParams={updateSearchParams}
         searchQuery={searchQuery}
         workType={workType}
+        applicationStatus={applicationStatus}
       />
-
-      {/* Application cards */}
-      <ApplicationList filteredApplications={filterApplications} />
+      <ApplicationList
+        filteredApplications={filterApplications}
+        handleApplicationStatus={handleApplicationStatus}
+      />
 
       {/* Empty state (search / filter walin kisima application ekak nathnam) */}
       {/* <p className="py-10 text-center text-sm text-slate-400">No applications found</p> */}
